@@ -7,7 +7,7 @@
             echo file_get_contents('enc.txt');
             exit;
         }
-        ?>
+    ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,7 +33,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Send</button>
     </form> 
-    <?php
+        <?php
             if(isset($_GET['msg'])){
                 echo "<h1>Download your encrypted message!</h1>";
                 echo "<a href=".$_SERVER['PHP_SELF']."?m=1>download</a>";
@@ -47,15 +47,12 @@
             $_SESSION['key'] = $keys;
             $_SESSION['mes'] = $message;
 
-            
-            
             if(ctype_lower($message) || ctype_lower($keys)){
                 $message =strtoupper($message);
                 $keys = strtoupper($keys);
             }
             $mesArray = str_split($message);
             $keyArray = str_split(str_repeat($keys, count($mesArray)));
-            print_r($keyArray);
             
             $alphaArray = [];
             for($i=65;$i<91;$i++){
@@ -91,9 +88,9 @@
 
             $enc = implode("",$encArray);
 
-                $file = fopen('enc.txt','w');
-                fwrite($file,$enc);
-                fclose($file);
+            $file = fopen('enc.txt','w');
+            fwrite($file,$enc);
+            fclose($file);
             
             header("Location:".$_SERVER['PHP_SELF']."?msg=encrypted");
         }
