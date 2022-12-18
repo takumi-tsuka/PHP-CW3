@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    session_start();   //start session
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,9 +42,8 @@
                 exit;
             }
 
-            if(ctype_lower($keys)){
-                $keys = strtoupper($keys);
-            }
+            $keys = str_replace(" ", "", $keys);
+            $keys = strtoupper($keys);
             
             $file = fopen($encFile['tmp_name'],'r');
             $data = fread($file,filesize($encFile['tmp_name']));
