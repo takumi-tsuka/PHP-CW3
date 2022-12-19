@@ -33,57 +33,57 @@
         <button type="submit" class="btn btn-primary">Send</button>
     </form>
     <?php 
-        if($_SERVER['REQUEST_METHOD']=="POST"){
-            $encFile = $_FILES['file'];
-            $keys = $_POST['key'];
+        if($_SERVER['REQUEST_METHOD']=="POST"){     //if request method is post
+            $encFile = $_FILES['file'];             //set $encFile as $_File['file']
+            $keys = $_POST['key'];                   //set $keys as $_POST['key']
 
-            if($_SESSION['key']!== $keys){
-                echo "<h1>!!!ERROR!!! DECRYPTION WAS NOT SUCCESS!!!</h1>";
-                exit;
+            if($_SESSION['key']!== $keys){                                  //If $key is not same as $_SESSION['key']
+                echo "<h1>!!!ERROR!!! DECRYPTION WAS NOT SUCCESS!!!</h1>";  //echo error message
+                exit;                                                       //exit from condition
             }
 
-            $keys = str_replace(" ", "", $keys);
-            $keys = strtoupper($keys);
+            $keys = str_replace(" ", "", $keys); //replace space to non
+            $keys = strtoupper($keys);           //chage $keys into uppercase
             
-            $file = fopen($encFile['tmp_name'],'r');
-            $data = fread($file,filesize($encFile['tmp_name']));
-            fclose($file);
+            $file = fopen($encFile['tmp_name'],'r');                //open temporary file by read mode
+            $data = fread($file,filesize($encFile['tmp_name']));    //read the file
+            fclose($file);                                          //close the file
             
-            $encArray = str_split($data);
-            $keyArray = str_split(str_repeat($keys, count($encArray)));
+            $encArray = str_split($data);                               //change $data from strings to array
+            $keyArray = str_split(str_repeat($keys, count($encArray))); //repeat $keys
 
-            $alphaArray = [];
-            for($i=65;$i<91;$i++){
-                array_push($alphaArray,chr($i));
+            $alphaArray = [];                                       //set empty array
+            for($i=65;$i<91;$i++){                                  //use for loop
+            array_push($alphaArray,chr($i));                        //push each alphabet into $alphaArray
             }
 
-            $encNumArray =[];
-            foreach($encArray as $enc){
-                foreach($alphaArray as $idx=>$alpha){
-                    if($enc == $alpha){
-                        array_push($encNumArray,$idx);
+            $encNumArray =[];                               //set empty array
+            foreach($encArray as $enc){                     //use foreach loop in $encArray
+                foreach($alphaArray as $idx=>$alpha){       //use foreach loop in $alphaArray
+                    if($enc == $alpha){                     //If $enc equal to $alpha
+                        array_push($encNumArray,$idx);      //push the index number into $encNumArray
                     }
                 }
             }
     
-            $keyNumArray =[];
-            foreach($keyArray as $key){
-                foreach($alphaArray as $idx=>$alpha){
-                    if($key == $alpha){
-                        array_push($keyNumArray,$idx);
+            $keyNumArray =[];                           //set empty array
+            foreach($keyArray as $key){                 //use foreach loop in $keyArray
+                foreach($alphaArray as $idx=>$alpha){   //use foreach loop in $alphaArray
+                    if($key == $alpha){                 //If $key equal to $alpha
+                        array_push($keyNumArray,$idx);  //push the index number into $keyNumArray
                     }
                 }
             }
     
-            $decArray = [];
-            for($i=0;$i<count($encNumArray);$i++){
-                if($encNumArray[$i] >= $keyNumArray[$i]){
-                    array_push($decArray,$alphaArray[$encNumArray[$i]-$keyNumArray[$i]]);
+            $decArray = [];                                                                 //set empty array
+            for($i=0;$i<count($encNumArray);$i++){                                          //use for loop from 0 to amount of $encNumArray and add one
+                if($encNumArray[$i] >= $keyNumArray[$i]){                                   //If the each index number of the encrypted message is bigger than he each index number of the key
+                    array_push($decArray,$alphaArray[$encNumArray[$i]-$keyNumArray[$i]]);   //push $alphaArray[$encNumArray[$i]-$keyNumArray[$i]] to $decArray (oppoite process when encripto)
                 }else{
-                    array_push($decArray,$alphaArray[count($alphaArray)-($keyNumArray[$i]-$encNumArray[$i])]);
+                    array_push($decArray,$alphaArray[count($alphaArray)-($keyNumArray[$i]-$encNumArray[$i])]); //push $alphaArray[count($alphaArray)-($keyNumArray[$i]-$encNumArray[$i])] to $decArray (opposite process when encrypto)
                 }
             }
-            echo "<h1 style= color:black;>Decrypt was success! : ".implode("",$decArray)."<h1>";
+            echo "<h1 style= color:black;>Decrypt was success! : ".implode("",$decArray)."<h1>"; //echo the decrypted message!!!!
         }
     ?>
 </body>

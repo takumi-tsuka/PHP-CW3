@@ -44,7 +44,7 @@
         if($_SERVER['REQUEST_METHOD']=="POST"){     //ifmethod in form is post,
             $message = $_POST['mes'];               //set $message as $_POST['mes]
             $keys = $_POST['key'];                  //set $keys as $_POST['key']
-        $_SESSION['key'] = $keys;                   //set $SESSION['key'] as $keys
+            $_SESSION['key'] = $keys;                   //set $SESSION['key'] as $keys
             $_SESSION['mes'] = $message;            //set $SESSION['mes'] as $message
             $keys = str_replace(" ", "", $keys);    //remove space from $keys
             $message = str_replace(" ", "", $message); //remve from $message
@@ -79,7 +79,7 @@
             }
     
             $encArray = [];                                                                                 //set empty array
-                for($i=0;$i<count($mesNumArray);$i++){                                                      //use for loop in the number of amount of $mesNumArray
+            for($i=0;$i<count($mesNumArray);$i++){                                                          //use for loop in the number of amount of $mesNumArray
                 if($keyNumArray[$i]+$mesNumArray[$i] < count($alphaArray)){                                 //if $keyNumArray[$i] plus $mesNumArray[$i] is smaller than amount of $alphaArray
                     array_push($encArray,$alphaArray[$keyNumArray[$i]+$mesNumArray[$i]]);                   //push $alphaArray[$keyNumArray[$i]+$mesNumArray[$i]] to $encArray
                 }else{                                                                                      //else == if $keyNumArray[$i] plus $mesNumArray[$i] is bigger than amount of $alphaArray
